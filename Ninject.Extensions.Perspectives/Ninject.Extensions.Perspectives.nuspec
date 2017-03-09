@@ -8,7 +8,7 @@
     <authors>Wichard Riezebos</authors>
     <owners>Wichard Riezebos</owners>
     <projectUrl>https://github.com/WichardRiezebos/Ninject.Extensions.Perspectives</projectUrl>
-    <iconUrl>https://github.com/WichardRiezebos/Ninject.Extensions.Perspectives/master/icon.png</iconUrl>
+    <iconUrl>https://raw.github.com/WichardRiezebos/Ninject.Extensions.Perspectives/master/icon.png</iconUrl>
     <tags>ninject mock perspectives interfaces proxy</tags>
   </metadata>
 </package>
