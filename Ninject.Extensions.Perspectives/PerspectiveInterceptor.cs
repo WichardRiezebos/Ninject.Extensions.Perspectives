@@ -41,9 +41,11 @@ namespace Ninject.Extensions.Perspectives
             {
                 var fingerprint = invocation.Method.ToString();
 
-                if (methods.TryGetValue(fingerprint, out MethodInfo invocater))
+                var invocator = default(MethodInfo);
+
+                if (methods.TryGetValue(fingerprint, out invocator))
                 {
-                    invocation.ReturnValue = invocater?
+                    invocation.ReturnValue = invocator?
                         .Invoke(instance, invocation.Arguments);
                 }
             }
