@@ -29,6 +29,7 @@ For example take the `System.IO.Path` class:
         string GetRandomFileName();
     }
     ```
+
 2. Add a perspective binding:
     ```
     using Ninject.Extensions.Perspectives;
