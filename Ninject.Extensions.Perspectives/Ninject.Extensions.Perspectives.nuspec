@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>Ninject.Extensions.Perspectives</title>
+    <description>Allows to create interfaces for non-mockable classes.</description>
+    <authors>Wichard Riezebos</authors>
+    <owners>Wichard Riezebos</owners>
+    <projectUrl>https://github.com/WichardRiezebos/Ninject.Extensions.Perspectives</projectUrl>
+    <iconUrl>https://github.com/WichardRiezebos/Ninject.Extensions.Perspectives/master/icon.png</iconUrl>
+    <tags>ninject mock perspectives interfaces proxy</tags>
+  </metadata>
+</package>
