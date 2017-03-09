@@ -19,13 +19,14 @@ namespace Ninject.Extensions.Perspectives
         public PerspectiveInterceptor(IContext context, Type targetType)
         {
             this.context = context;
-            this.serviceType = FlattenType(targetType);
 
-            methods = serviceType.GetMethods()
+            serviceType = FlattenType(targetType);
+
+            methods = GetMethodsResursive(serviceType)
+                .GroupBy(m => m.ToString(), StringComparer.OrdinalIgnoreCase)
                 .ToDictionary(
-                    m => m.ToString(),
-                    m => m,
-                    StringComparer.OrdinalIgnoreCase
+                    g => g.Key,
+                    g => g.First()
                 );
 
             instance = CreateInstance();
@@ -63,6 +64,15 @@ namespace Ninject.Extensions.Perspectives
             return context.HasInferredGenericArguments
                 ? original.MakeGenericType(context.GenericArguments)
                 : original;
+        }
+
+        private IReadOnlyCollection<MethodInfo> GetMethodsResursive(Type type)
+        {
+            return type.GetMethods()
+                .Concat(type.GetInterfaces()
+                    .SelectMany(GetMethodsResursive)
+                )
+                .ToList();
         }
 
         public void Dispose()

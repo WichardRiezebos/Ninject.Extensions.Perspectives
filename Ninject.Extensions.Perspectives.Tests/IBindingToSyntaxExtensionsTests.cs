@@ -3,6 +3,7 @@ using Ninject.Extensions.Perspectives.Perspectives;
 using Ninject.Parameters;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 
@@ -62,6 +63,25 @@ namespace Ninject.Extensions.Perspectives
             var persp = kernel.Get<Repo>();
 
             Assert.That(persp.DoesRandomWork(), Is.EqualTo(true));
+        }
+
+        [Test]
+        public void ToPerspective_WhenInterfaceTree_CanBeInvoked()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind(typeof(IStoreItems<>)).ToPerspective(typeof(List<>));
+
+            var persp = kernel.Get<IStoreItems<int>>();
+
+            persp.Add(1);
+            persp.Add(1);
+            persp.Add(1);
+            persp.Add(1);
+
+            foreach (int val in persp)
+            {
+                Assert.That(val, Is.GreaterThan(0));
+            }
         }
     }
 }

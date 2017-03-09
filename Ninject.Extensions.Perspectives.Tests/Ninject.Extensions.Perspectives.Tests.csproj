@@ -52,6 +52,7 @@
     <Compile Include="Perspectives\IPath.cs" />
     <Compile Include="Perspectives\ISocket.cs" />
     <Compile Include="Perspectives\IStore.cs" />
+    <Compile Include="Perspectives\IStoreItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
