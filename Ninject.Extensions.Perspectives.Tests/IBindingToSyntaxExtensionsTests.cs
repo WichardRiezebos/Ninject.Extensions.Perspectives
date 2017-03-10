@@ -5,6 +5,8 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 
 namespace Ninject.Extensions.Perspectives
@@ -82,6 +84,55 @@ namespace Ninject.Extensions.Perspectives
             {
                 Assert.That(val, Is.GreaterThan(0));
             }
+        }
+
+        [Test]
+        public void ToPerspective_WithSingletonScope_DoesWhatExpected()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind(typeof(IStoreItems<>)).ToPerspective(typeof(List<>)).InSingletonScope();
+
+            var request1 = kernel.Get<IStoreItems<int>>();
+
+            request1.Add(1);
+
+            var request2 = kernel.Get<IStoreItems<int>>();
+            var nums = request2.ToList();
+
+            Assert.That(nums, Is.Not.Empty);
+        }
+
+        [Test]
+        public void ToPerspective_WithTransientScope_DoesWhatExpected()
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind(typeof(IStoreItems<>)).ToPerspective(typeof(List<>)).InTransientScope();
+
+            var request1 = kernel.Get<IStoreItems<int>>();
+
+            request1.Add(1);
+
+            var request2 = kernel.Get<IStoreItems<int>>();
+            var nums = request2.ToList();
+
+            Assert.That(nums, Is.Empty);
+        }
+
+        [Test]
+        public void KernelDispose_WhenCalled_DisposesPerspectives()
+        {
+            var @case = default(ISocket);
+
+            using (var kernel = new StandardKernel())
+            {
+                kernel.Bind<ISocket>().ToPerspective(typeof(Socket)).InScope(ctx => new object());
+
+                @case = kernel.Get<ISocket>(
+                    new ConstructorArgument("socketType", SocketType.Stream),
+                    new ConstructorArgument("protocolType", ProtocolType.Tcp));
+            }
+
+            Assert.Throws<ObjectDisposedException>(() => @case.Accept());
         }
     }
 }
